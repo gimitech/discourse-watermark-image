@@ -474,7 +474,7 @@ export default class PreviewWatermark extends Component {
         >
           <div
             class="watermark-preview__header"
-            {{draggable
+            {{dPointerDrag
               didStartDrag=this.didStartDrag
               didEndDrag=this.didEndDrag
               dragMove=this.dragMove
