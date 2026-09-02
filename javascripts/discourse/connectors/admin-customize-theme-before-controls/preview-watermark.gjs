@@ -13,7 +13,6 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import dPointerDrag from "discourse/ui-kit/modifiers/d-pointer-drag";
 import { bind } from "discourse-common/utils/decorators";
 import { i18n } from "discourse-i18n";
-import { schedule } from "@ember/runloop";
 import {
   imageDataToFile,
   imageURLToFile,
@@ -259,13 +258,7 @@ export default class PreviewWatermark extends Component {
     this.imageSourceURL = url;
     this.imageSourceFile = file;
 
-    // Inside your component class/actions:
-  initImage() {
-    // Wait for the UI layout to completely mount
-    schedule("afterRender", () => {
-    this.setPreviewPosition();
-    });
-  }
+    this.setPreviewPosition(); 
     this.showPreview = !this.site.mobileView;
 
     return file;
