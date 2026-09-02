@@ -10,7 +10,7 @@ import { modifier } from "ember-modifier";
 import DButton from "discourse/components/d-button";
 import PickFilesButton from "discourse/components/pick-files-button";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import draggable from "discourse/modifiers/draggable";
+import dPointerDrag from "discourse/ui-kit/modifiers/d-pointer-drag";
 import { bind } from "discourse-common/utils/decorators";
 import { i18n } from "discourse-i18n";
 import {
