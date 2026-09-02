@@ -149,11 +149,11 @@ export default class PreviewWatermark extends Component {
   // Fallback to a zeroed coordinate object if element query fails
   const installButtonRect = document
     .querySelector(".themes-list .create-actions")
-    ?.getBoundingClientRect() || { y: 0 };
+    .getBoundingClientRect() || { y: 0 };
     
   const watermarkImageContainerRect = document
     .querySelector('[data-setting="watermark_image"]')
-    ?.getBoundingClientRect() || { y: 0 };
+    .getBoundingClientRect() || { y: 0 };
 
   // This will never crash; evaluates against 0 if elements are unmounted
   this.createActionsTop = Math.max(
