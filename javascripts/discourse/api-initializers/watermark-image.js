@@ -59,7 +59,7 @@ class WatermarkInit {
 
               if (
                 !requiredGroups.includes(0) &&
-                !this.currentUser.groups
+                !this.currentUser.visibleGroups
                   .map((group) => group.id)
                   .some((group) => requiredGroups.includes(group))
               ) {
