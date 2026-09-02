@@ -458,72 +458,42 @@ export default class PreviewWatermark extends Component {
 
   <template>
     {{#if this.shouldDisplay}}
-      <DButton
-        @icon="image"
-        class="btn-default btn-normal preview-watermark"
-        @translatedLabel="Preview Watermark"
-        @action={{this.togglePreview}}
+      <div 
+        class="watermark-preview__container" 
+        style="top: {{this.createActionsTop}}px;"
         {{didInsert this.initImage}}
-      />
-
-      {{#if this.showPreview}}
-        <div
-          class="watermark-preview__container"
-          {{this.registerEvents}}
-          {{didInsert this.setPreviewPosition}}
+        {{this.registerEvents}}
+      >
+        <!-- Native interactive binding element prevents listener collision -->
+        <button 
+          type="button" 
+          class="btn btn-primary toggle-preview-btn" 
+          {{on "click" this.togglePreview}}
         >
-          <div
-            class="watermark-preview__header"
-            {{dPointerDrag
-              didStartDrag=this.didStartDrag
-              didEndDrag=this.didEndDrag
-              dragMove=this.dragMove
-            }}
-          >
-            <div>{{i18n (themePrefix "preview.title")}}</div>
+          {{#if this.showPreview}}
+            Hide Watermark Preview
+          {{else}}
+            Show Watermark Preview
+          {{/if}}
+        </button>
+
+        {{#if this.showPreview}}
+          <div class="watermark-preview__resizable" style={{this.imageStyle}}>
             {{#if this.imageLoading}}
-              <div class="spinner small"></div>
+              <div class="spinner"></div>
+            {{else}}
+              <img src={{this.imageSourceURL}} alt="Watermark Preview Target" />
             {{/if}}
-            <div class="watermark-preview__actions">
-              <PickFilesButton
-                @allowMultiple={{false}}
-                @showButton={{true}}
-                @onFilesPicked={{this.uploadImage}}
-                @disabled={{this.imageLoading}}
-                @acceptedFormatsOverride={{WATERMARK_ALLOWED_EXTS_STRING}}
-                @acceptedFileTypesString={{WATERMARK_ALLOWED_EXTS_STRING}}
-                @icon="upload"
-                accept="image/*"
-                name="image-uploader"
-              />
-              <DButton
-                @icon="arrows-rotate"
-                class="btn-default btn-normal"
-                @translatedTitle={{i18n
-                  (themePrefix "preview.buttons.refresh")
-                }}
-                @disabled={{this.imageLoading}}
-                @action={{this.refreshImage}}
-              />
-              <DButton
-                @icon="xmark"
-                class="btn-default btn-normal"
-                @translatedTitle={{i18n (themePrefix "preview.buttons.close")}}
-                @action={{this.togglePreview}}
-              />
-            </div>
           </div>
-          <div
-            class="watermark-preview__resizable"
-            style={{this.imageStyle}}
-            {{didInsert this.applyWatermark}}
-          >
-            {{~! no whitespace ~}}
-            <img src={{this.imageSourceURL}} />
-            {{~! no whitespace ~}}
+
+          <div class="watermark-preview__actions">
+            <PickFilesButton 
+              @onFilesPicked={{this.uploadImage}} 
+              @acceptedExtensions=".png,.jpg,.jpeg"
+            />
           </div>
-        </div>
-      {{/if}}
+        {{/if}}
+      </div>
     {{/if}}
   </template>
 }
