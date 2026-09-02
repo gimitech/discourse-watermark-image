@@ -124,8 +124,7 @@ export default class PreviewWatermark extends Component {
       currentRoute.attributes.component &&
       currentRoute.attributes.theme_fields.length > 0 &&
       currentRoute.attributes.theme_fields.find(
-        "name",
-        "discourse/api-initializers/watermark-image.js"
+        (field) => field.name === "discourse/api-initializers/watermark-image.js"
       )
     );
   }
