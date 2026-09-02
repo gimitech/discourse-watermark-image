@@ -12,6 +12,7 @@ import PickFilesButton from "discourse/components/pick-files-button";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import dPointerDrag from "discourse/ui-kit/modifiers/d-pointer-drag";
 import { bind } from "discourse-common/utils/decorators";
+import { on } from "@ember/modifier";
 import { i18n } from "discourse-i18n";
 import {
   imageDataToFile,
@@ -238,28 +239,22 @@ export default class PreviewWatermark extends Component {
   }
 
   @action
-  async initImage() {
-    const { file, url } = await imageURLToFile(IMAGE_BANK_URL, {
-      returnOriginalUrl: true,
-    });
-
-    if (this.imageSourceURL) {
+    async initImage() {
+        const { file, url } = await imageURLToFile(IMAGE_BANK_URL, { returnOriginalUrl: true });
+    
+      if (this.imageSourceURL) {
       URL.revokeObjectURL(this.imageSourceURL);
     }
 
-    const uploadinput = document.querySelector(
-      `${ACTIONS_SELECTOR} .pick-files-button input`
-    );
+      this.imageSourceURL = url;
+      this.imageSourceFile = file;
 
-    if (uploadinput) {
-      uploadinput.value = "";
+      this.setPreviewPosition();
+    
+    // FIX: Only force open if showPreview has never been explicitly defined yet
+      if (this.showPreview === undefined || this.showPreview === null) {
+        this.showPreview = !this.site.mobileView;
     }
-
-    this.imageSourceURL = url;
-    this.imageSourceFile = file;
-
-    this.setPreviewPosition(); 
-    this.showPreview = !this.site.mobileView;
 
     return file;
   }
