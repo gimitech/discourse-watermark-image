@@ -148,10 +148,10 @@ export default class PreviewWatermark extends Component {
   setPreviewPosition() {
     const installButtonRect = document
       .querySelector(".themes-list .create-actions")
-      .getBoundingClientRect();
+      ?.getBoundingClientRect();
     const watermarkImageContainerRect = document
       .querySelector('[data-setting="watermark_image"]')
-      .getBoundingClientRect();
+      ?.getBoundingClientRect();
 
     this.createActionsTop = Math.max(
       installButtonRect.y + window.scrollY,
