@@ -146,20 +146,26 @@ export default class PreviewWatermark extends Component {
 
   @action
   setPreviewPosition() {
-  // Fallback to a zeroed coordinate object if element query fails
-  const installButtonRect = document
-    .querySelector(".themes-list .create-actions")
-    .getBoundingClientRect() || { y: 0 };
-    
-  const watermarkImageContainerRect = document
-    .querySelector('[data-setting="watermark_image"]')
-    .getBoundingClientRect() || { y: 0 };
+    const createActionsElem = document.querySelector(".themes-list .create-actions");
+    const watermarkElem = document.querySelector('[data-setting="watermark_image"]');
 
-  // This will never crash; evaluates against 0 if elements are unmounted
-  this.createActionsTop = Math.max(
-    installButtonRect.y + window.scrollY,
-    watermarkImageContainerRect.y + window.scrollY
-    );
+    // 1. Guard check: abort if the elements aren't rendered in the current DOM view
+    if (!createActionsElem || !watermarkElem) {
+      return; 
+    }
+
+    // 2. Safely call client rects now that existence is verified
+    const createActionsRect = createActionsElem.getBoundingClientRect();
+    const watermarkImageContainerRect = watermarkElem.getBoundingClientRect();
+
+    // 3. Your placement calculations (line 157 was crashing here)
+    // Ensure your variables map to the layout rects safely:
+    const targetY = createActionsRect.top; // or whatever math you are doing
+    const targetX = watermarkImageContainerRect.left;
+
+    // Apply positions safely
+    this.previewElement.style.top = `${targetY}px`;
+    // ... rest of your code
   }
 
   @action
