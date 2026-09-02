@@ -146,16 +146,19 @@ export default class PreviewWatermark extends Component {
 
   @action
   setPreviewPosition() {
-    const installButtonRect = document
-      .querySelector(".themes-list .create-actions")
-      ?.getBoundingClientRect();
-    const watermarkImageContainerRect = document
-      .querySelector('[data-setting="watermark_image"]')
-      ?.getBoundingClientRect();
+  // Fallback to a zeroed coordinate object if element query fails
+  const installButtonRect = document
+    .querySelector(".themes-list .create-actions")
+    ?.getBoundingClientRect() || { y: 0 };
+    
+  const watermarkImageContainerRect = document
+    .querySelector('[data-setting="watermark_image"]')
+    ?.getBoundingClientRect() || { y: 0 };
 
-    this.createActionsTop = Math.max(
-      installButtonRect.y + window.scrollY,
-      watermarkImageContainerRect.y + window.scrollY
+  // This will never crash; evaluates against 0 if elements are unmounted
+  this.createActionsTop = Math.max(
+    installButtonRect.y + window.scrollY,
+    watermarkImageContainerRect.y + window.scrollY
     );
   }
 
